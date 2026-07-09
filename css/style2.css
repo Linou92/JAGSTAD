@@ -228,6 +228,19 @@ body {
   stroke-linejoin: round;
 }
 
+.category-icon svg {
+    transition:
+        transform .55s cubic-bezier(.22,1,.36,1),
+        stroke-width .55s cubic-bezier(.22,1,.36,1);
+
+    transform-origin: center;
+}
+
+.category:hover .category-icon svg {
+    transform: scale(1.35) translateY(-3px);
+    stroke-width: 2.4;
+}
+
 /* Title + text */
 .category-content {
   display: flex;
