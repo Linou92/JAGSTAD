@@ -1,0 +1,163 @@
+<!doctype html>
+<html lang="sv">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <title>Kontorsstäd | J.A.G Städ</title>
+
+    <link rel="stylesheet" href="css/style2.css" />
+    <link rel="stylesheet" href="css/service-page.css" />
+  </head>
+
+  <body>
+    <main class="service-page">
+      <section class="service-hero">
+        <a href="index.html" class="back-link">← Tillbaka</a>
+
+        <div class="service-icon">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+            <path d="M10 86h80" />
+            <path d="M18 86V30h22v56" />
+            <path d="M40 86V16h28v70" />
+            <path d="M68 86V42h18v44" />
+            <path d="M28 42h4v7h-4z" />
+            <path d="M28 58h4v7h-4z" />
+            <path d="M50 28h5v8h-5z" />
+            <path d="M50 46h5v8h-5z" />
+            <path d="M50 64h5v8h-5z" />
+            <path d="M75 54h4v7h-4z" />
+            <path d="M75 69h4v7h-4z" />
+            <path d="M55 86V74h10v12" />
+          </svg>
+        </div>
+
+        <h1>Kontorsstäd</h1>
+        <div class="service-gold-line"></div>
+        <p>
+          Boka professionell kontorsstädning anpassad efter ditt företags behov.
+        </p>
+      </section>
+
+      <section class="booking-section">
+        <form class="booking-form">
+          <div class="form-group">
+            <label for="company">Företagsnamn</label>
+            <input
+              type="text"
+              id="company"
+              name="company"
+              placeholder="Ex. J.A.G Städ AB"
+              required
+            />
+          </div>
+
+          <div class="form-group">
+            <label for="phone">Telefonnummer</label>
+            <input
+              type="tel"
+              id="phone"
+              name="phone"
+              placeholder="Ex. 070 123 45 67"
+              required
+            />
+          </div>
+
+          <div class="form-group">
+            <label>Städtjänster</label>
+
+            <div class="checkbox-grid">
+              <label
+                ><input type="checkbox" name="options" value="basic" /> Basic
+                cleaning</label
+              >
+              <label
+                ><input type="checkbox" name="options" value="windows" />
+                Windows</label
+              >
+              <label
+                ><input type="checkbox" name="options" value="deep-clean" />
+                Deep clean</label
+              >
+              <label
+                ><input type="checkbox" name="options" value="sanitization" />
+                Sanitization</label
+              >
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label>Rum att städa</label>
+
+            <div class="checkbox-grid">
+              <label
+                ><input type="checkbox" name="rooms" value="conference" />
+                Conference room</label
+              >
+              <label
+                ><input type="checkbox" name="rooms" value="offices" />
+                Offices</label
+              >
+              <label
+                ><input type="checkbox" name="rooms" value="kitchen" />
+                Kitchen</label
+              >
+              <label
+                ><input type="checkbox" name="rooms" value="bathrooms" />
+                Bathrooms</label
+              >
+              <label
+                ><input type="checkbox" name="rooms" value="reception" />
+                Reception</label
+              >
+              <label
+                ><input type="checkbox" name="rooms" value="stairs" /> Stairs /
+                hallways</label
+              >
+            </div>
+          </div>
+
+          <div class="form-group booking-calendar-area">
+            <div class="calendar-column">
+              <label class="calendar-title">Välj datum</label>
+
+              <div class="custom-calendar">
+                <div class="calendar-header">
+                  <button type="button" id="prev-month">‹</button>
+                  <h3 id="calendar-month"></h3>
+                  <button type="button" id="next-month">›</button>
+                </div>
+
+                <div class="calendar-weekdays">
+                  <span>Mån</span><span>Tis</span><span>Ons</span
+                  ><span>Tor</span> <span>Fre</span><span>Lör</span
+                  ><span>Sön</span>
+                </div>
+
+                <div class="calendar-days" id="calendar-days"></div>
+              </div>
+            </div>
+
+            <div class="slots-column">
+              <label class="calendar-title">Lediga tider</label>
+
+              <div class="slots-box">
+                <div class="calendar-slots" id="available-slots">
+                  <p class="slot-message">
+                    Välj ett datum för att se lediga tider.
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <button type="submit" class="submit-btn">
+            Skicka bokningsförfrågan
+          </button>
+        </form>
+      </section>
+    </main>
+
+    <script src="javascript/service-page.js"></script>
+  </body>
+</html>
