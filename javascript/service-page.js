@@ -5,6 +5,22 @@ const slotsContainer = document.getElementById("available-slots");
 const prevBtn = document.getElementById("prev-month");
 const nextBtn = document.getElementById("next-month");
 
+const bookingForm = document.querySelector(".booking-form");
+const confirmation = document.querySelector("#booking-confirmation");
+
+bookingForm.addEventListener("submit", (event) => {
+  event.preventDefault();
+
+  if (!bookingForm.checkValidity()) {
+    bookingForm.reportValidity();
+    return;
+  }
+
+  confirmation.classList.add("show");
+  bookingForm.reset();
+});
+
+
 // Example available times
 // Later these will come from your backend/database.
 const availableSlots = {

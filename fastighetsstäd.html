@@ -1,0 +1,133 @@
+<!doctype html>
+<html lang="sv">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <title>Fastighetsstäd</title>
+
+    <link rel="stylesheet" href="css/style2.css" />
+    <link rel="stylesheet" href="css/service-page.css" />
+  </head>
+
+  <body>
+    <main class="service-page">
+      <section class="service-hero">
+        <a href="index.html" class="back-link">← Tillbaka</a>
+
+        <div class="service-icon">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+            <path d="M10 86h80" />
+            <path d="M16 86V46h22v40" />
+            <path d="M38 86V20h24v66" />
+            <path d="M62 86V50h22v36" />
+            <path d="M25 58h4v6h-4z" />
+            <path d="M25 72h4v6h-4z" />
+            <path d="M47 32h5v7h-5z" />
+            <path d="M47 48h5v7h-5z" />
+            <path d="M47 64h5v7h-5z" />
+            <path d="M71 62h4v6h-4z" />
+            <path d="M71 74h4v6h-4z" />
+            <path d="M46 86V76h8v10" />
+          </svg>
+        </div>
+
+        <h1>Fastighetsstäd</h1>
+        <div class="service-gold-line"></div>
+        <p>Boka professionell fastighetsstädning anpassad efter ditt behov.</p>
+      </section>
+
+      <section class="booking-section">
+        <form class="booking-form">
+          <div class="form-group">
+            <label for="company">Företagsnamn</label>
+            <input
+              type="text"
+              id="company"
+              name="company"
+              placeholder="Ex. J.A.G Städ AB"
+              required
+            />
+          </div>
+
+          <div class="form-group">
+            <label for="phone">Telefonnummer</label>
+            <input
+              type="tel"
+              id="phone"
+              name="phone"
+              placeholder="Ex. 070 123 45 67"
+              required
+            />
+          </div>
+
+          <div class="form-group">
+            <label>Städalternativ</label>
+
+            <div class="checkbox-grid">
+              <label
+                ><input type="checkbox" name="rooms" value="conference" />
+                Trapphus</label
+              >
+              <label
+                ><input type="checkbox" name="rooms" value="offices" />
+                Hiss</label
+              >
+              <label
+                ><input type="checkbox" name="rooms" value="kitchen" />
+                Förråd</label
+              >
+              <label
+                ><input type="checkbox" name="rooms" value="bathrooms" />
+                Tvättstuga</label
+              >
+            </div>
+          </div>
+
+          <div class="form-group booking-calendar-area">
+            <div class="calendar-column">
+              <label class="calendar-title">Välj datum</label>
+
+              <div class="custom-calendar">
+                <div class="calendar-header">
+                  <button type="button" id="prev-month">‹</button>
+                  <h3 id="calendar-month"></h3>
+                  <button type="button" id="next-month">›</button>
+                </div>
+
+                <div class="calendar-weekdays">
+                  <span>Mån</span><span>Tis</span><span>Ons</span
+                  ><span>Tor</span> <span>Fre</span><span>Lör</span
+                  ><span>Sön</span>
+                </div>
+
+                <div class="calendar-days" id="calendar-days"></div>
+              </div>
+            </div>
+
+            <div class="slots-column">
+              <label class="calendar-title">Lediga tider</label>
+
+              <div class="slots-box">
+                <div class="calendar-slots" id="available-slots">
+                  <p class="slot-message">
+                    Välj ett datum för att se lediga tider.
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <button type="submit" class="submit-btn">
+            Skicka bokningsförfrågan
+          </button>
+          <p class="booking-confirmation" id="booking-confirmation">
+            Tack! Din bokningsförfrågan har skickats. Vi kontaktar dig snart.
+          </p>
+        </form>
+      </section>
+    </main>
+
+    <script src="javascript/service-page.js"></script>
+  </body>
+</html>

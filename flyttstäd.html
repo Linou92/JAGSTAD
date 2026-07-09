@@ -1,0 +1,112 @@
+<!doctype html>
+<html lang="sv">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <title>Flyttstäd</title>
+
+    <link rel="stylesheet" href="css/style2.css" />
+    <link rel="stylesheet" href="css/service-page.css" />
+  </head>
+
+  <body>
+    <main class="service-page">
+      <section class="service-hero">
+        <a href="index.html" class="back-link">← Tillbaka</a>
+
+        <div class="service-icon">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+            <rect x="18" y="18" width="64" height="64" rx="4" />
+            <path d="M50 18v64" />
+            <path d="M18 50h64" />
+          </svg>
+        </div>
+
+        <h1>Flyttstäd</h1>
+        <div class="service-gold-line"></div>
+        <p>Boka professionell flyttstädning anpassad efter ditt behov.</p>
+      </section>
+
+      <section class="booking-section">
+        <form class="booking-form">
+          <div class="form-group">
+            <label for="client">Kundsnamn</label>
+            <input
+              type="text"
+              id="client"
+              name="client"
+              placeholder="Ex. John Doe"
+              required
+            />
+          </div>
+
+          <div class="form-group">
+            <label for="phone">Telefonnummer</label>
+            <input
+              type="tel"
+              id="phone"
+              name="phone"
+              placeholder="Ex. 070 123 45 67"
+              required
+            />
+          </div>
+
+          <div class="form-group">
+            <label for="area-size">Yta att städa</label>
+            <input
+              type="text"
+              id="area-size"
+              name="areaSize"
+              placeholder="Ex. 80 kvm"
+              required
+            />
+          </div>
+
+          <div class="form-group booking-calendar-area">
+            <div class="calendar-column">
+              <label class="calendar-title">Välj datum</label>
+
+              <div class="custom-calendar">
+                <div class="calendar-header">
+                  <button type="button" id="prev-month">‹</button>
+                  <h3 id="calendar-month"></h3>
+                  <button type="button" id="next-month">›</button>
+                </div>
+
+                <div class="calendar-weekdays">
+                  <span>Mån</span><span>Tis</span><span>Ons</span
+                  ><span>Tor</span> <span>Fre</span><span>Lör</span
+                  ><span>Sön</span>
+                </div>
+
+                <div class="calendar-days" id="calendar-days"></div>
+              </div>
+            </div>
+
+            <div class="slots-column">
+              <label class="calendar-title">Lediga tider</label>
+
+              <div class="slots-box">
+                <div class="calendar-slots" id="available-slots">
+                  <p class="slot-message">
+                    Välj ett datum för att se lediga tider.
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <button type="submit" class="submit-btn">
+            Skicka bokningsförfrågan
+          </button>
+          <p class="booking-confirmation" id="booking-confirmation">
+            Tack! Din bokningsförfrågan har skickats. Vi kontaktar dig snart.
+          </p>
+        </form>
+      </section>
+    </main>
+
+    <script src="javascript/service-page.js"></script>
+  </body>
+</html>
