@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@700&family=Montserrat:wght@400;500;600;700&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@700&family=Montserrat:wght@400;500;600;700&display=swap");
 
 * {
   box-sizing: border-box;
@@ -230,16 +230,16 @@ body {
 }
 
 .category-icon svg {
-    transition:
-        transform .55s cubic-bezier(.22,1,.36,1),
-        stroke-width .55s cubic-bezier(.22,1,.36,1);
+  transition:
+    transform 0.55s cubic-bezier(0.22, 1, 0.36, 1),
+    stroke-width 0.55s cubic-bezier(0.22, 1, 0.36, 1);
 
-    transform-origin: center;
+  transform-origin: center;
 }
 
 .category:hover .category-icon svg {
-    transform: scale(1.35) translateY(-3px);
-    stroke-width: 2.4;
+  transform: scale(1.35) translateY(-3px);
+  stroke-width: 2.4;
 }
 
 /* Title + text */
@@ -271,8 +271,8 @@ body {
 
 .rooms-list {
   display: grid;
-  grid-template-columns:repeat(2,1fr);
-    gap:14px 18px;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 14px 18px;
 }
 
 .room-item {
@@ -308,12 +308,12 @@ body {
   color: #f5e9bc;
   font-size: 18px;
   cursor: pointer;
-  transition: .25s;
+  transition: 0.25s;
 }
 
-.counter button:hover{
-    background:#C7A24A;
-    color:#091C31;
+.counter button:hover {
+  background: #c7a24a;
+  color: #091c31;
 }
 
 .count {
@@ -449,22 +449,22 @@ body {
   }
 
   .logo-section {
-    height: 22svh;
+    height: 18svh;
     padding: 0;
   }
 
   .logo-section img {
-    width: 220px;
+    width: 170px;
     max-width: 75%;
   }
 
   .text-section {
     /*padding: 20px;*/
-    padding: 22px 26px;
+    padding: 18px 24px;
   }
 
   .tagline {
-    font-size: 24px;
+    font-size: 18px;
     line-height: 1.2;
   }
 
@@ -479,15 +479,15 @@ body {
   }*/
 
   .hero-text {
-    font-size: 16px;
+    font-size: 14px;
     line-height: 1.4;
-    max-width: 320px;
+    max-width: 250px;
   }
 
   .image-section {
     /*height: auto;*/
     /*aspect-ratio: 4/3;*/
-    height: 28svh;
+    height: 42svh;
     aspect-ratio: auto;
   }
 
@@ -503,7 +503,7 @@ body {
   }*/
 
   .badge {
-    width: 76px;
+    width: 70px;
     right: 14px;
     bottom: 14px;
   }
@@ -639,4 +639,3 @@ body {
     padding: 0 25px;
   }
 }
-

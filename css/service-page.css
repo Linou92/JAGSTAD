@@ -5,7 +5,7 @@
 }
 
 .service-hero {
-  padding: 50px 24px 60px;
+  padding: 25px 20px 35px;
   text-align: center;
   background: linear-gradient(
     180deg,
@@ -34,8 +34,8 @@
 }
 
 .service-icon svg {
-  width: 100px;
-  height: 100px;
+  width: 72px;
+  height: 72px;
   stroke: #c7a24a;
   stroke-width: 2.2;
   fill: none;
@@ -45,7 +45,7 @@
 
 .service-hero h1 {
   margin: 0;
-  font-size: 34px;
+  font-size: 28px;
   letter-spacing: 1px;
 }
 
@@ -63,9 +63,9 @@
 }
 
 .service-hero p {
-  max-width: 560px;
+  max-width: 320px;
   margin: 0 auto;
-  font-size: 20px;
+  font-size: 15px;
   line-height: 1.6;
   color: #d4d7dd;
 }
@@ -339,16 +339,16 @@ input[type="date"] {
 /* TABLET */
 @media (min-width: 768px) {
   .service-hero {
-    padding: 70px 40px 80px;
+    padding: 25px 20px 35px;
   }
 
   .service-icon svg {
-    width: 140px;
-    height: 140px;
+    width: 72px;
+    height: 72px;
   }
 
   .service-hero h1 {
-    font-size: 52px;
+    font-size: 38px;
   }
 
   .checkbox-grid {
@@ -379,6 +379,19 @@ input[type="date"] {
 
 /* MOBILE */
 @media (max-width: 600px) {
+   .rooms-list {
+    grid-template-columns: 1fr;
+  }
+
+  .room-item {
+    width: 100%;
+  }
+
+  .counter {
+    width: 100%;
+    justify-content: flex-end;
+  }
+
   .booking-section {
     padding: 28px 14px;
   }
