@@ -20,6 +20,23 @@ bookingForm.addEventListener("submit", (event) => {
   bookingForm.reset();
 });
 
+document.querySelectorAll(".room-item").forEach((item) => {
+  const minus = item.querySelector(".minus");
+  const plus = item.querySelector(".plus");
+  const count = item.querySelector(".count");
+
+  plus.addEventListener("click", () => {
+    count.textContent = Number(count.textContent) + 1;
+  });
+
+  minus.addEventListener("click", () => {
+    const current = Number(count.textContent);
+
+    if (current > 0) {
+      count.textContent = current - 1;
+    }
+  });
+});
 
 // Example available times
 // Later these will come from your backend/database.
