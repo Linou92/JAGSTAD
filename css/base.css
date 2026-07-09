@@ -1,0 +1,65 @@
+@import url("https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@700&family=Montserrat:wght@400;500;600;700;800&display=swap");
+
+:root {
+  --font-main: "Montserrat", sans-serif;
+
+  --blue-dark: #091c31;
+  --blue-deep: #0f2b4b;
+  --blue-main: #173c60;
+  --blue-light: #214c74;
+
+  --gold-dark: #8f6826;
+  --gold-main: #c7a24a;
+  --gold-soft: #d8b86a;
+  --gold-light: #f5e9bc;
+
+  --white: #ffffff;
+  --text-light: #d4d7dd;
+
+  --blue-gradient: linear-gradient(
+    180deg,
+    var(--blue-light) 0%,
+    var(--blue-main) 35%,
+    var(--blue-deep) 70%,
+    var(--blue-dark) 100%
+  );
+
+  --gold-gradient: linear-gradient(
+    90deg,
+    rgba(143, 104, 38, 0.8),
+    var(--gold-soft),
+    var(--gold-light),
+    var(--gold-soft),
+    rgba(143, 104, 38, 0.8)
+  );
+
+  --card-bg: rgba(255, 255, 255, 0.06);
+  --card-border: rgba(216, 184, 106, 0.35);
+
+  --radius-sm: 10px;
+  --radius-md: 16px;
+  --radius-lg: 18px;
+
+  --shadow-card: 0 20px 50px rgba(0, 0, 0, 0.25);
+  --shadow-gold: 0 0 6px rgba(215, 184, 106, 0.35);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  margin: 0;
+  width: 100%;
+  min-height: 100%;
+  font-family: var(--font-main);
+  background: var(--blue-dark);
+}
+
+.gold-divider {
+  width: 100%;
+  height: 2px;
+  background: var(--gold-gradient);
+  box-shadow: var(--shadow-gold);
+}
