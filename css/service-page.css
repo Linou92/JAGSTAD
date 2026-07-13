@@ -353,6 +353,11 @@ input[type="date"] {
   display: block;
 }
 
+.slot-message--error {
+  color: #ffd2d2;
+  font-weight: 600;
+}
+
 /* TABLET */
 @media (min-width: 768px) {
   .service-hero {
