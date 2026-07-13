@@ -171,6 +171,8 @@
   align-items: center;
   padding: 5px 25px;
   position: relative;
+  text-decoration: none;
+  color: inherit;
 }
 
 /* shorter separator line */
@@ -390,7 +392,7 @@
 
   .category {
     flex: 1;
-    padding: 8px 24px;
+    padding: 8px 2px;
   }
 
   .category-icon {
