@@ -9,7 +9,7 @@ const CALENDAR_ID = process.env.GOOGLE_CALENDAR_ID;
 const WORK_START_HOUR = 8;
 const WORK_END_HOUR = 17;
 const SLOT_INTERVAL_MINUTES = 60;
-const SLOT_DURATION_MINUTES = 90;
+const SLOT_DURATION_MINUTES = 240;
 
 function jsonResponse(statusCode, body) {
   return {
