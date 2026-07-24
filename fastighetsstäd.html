@@ -174,13 +174,13 @@
 
           <div class="form-group booking-calendar-area">
             <div class="calendar-column">
-              <label class="calendar-title">Välj datum</label>
+              <label class="calendar-title">Välj en ledig dag</label>
 
               <div class="custom-calendar">
                 <div class="calendar-header">
-                  <button type="button" id="prev-month">‹</button>
+                  <button type="button" id="prev-month" aria-label="Föregående månad">‹</button>
                   <h3 id="calendar-month"></h3>
-                  <button type="button" id="next-month">›</button>
+                  <button type="button" id="next-month" aria-label="Nästa månad">›</button>
                 </div>
 
                 <div class="calendar-weekdays">
@@ -191,18 +191,7 @@
 
                 <div class="calendar-days" id="calendar-days"></div>
               </div>
-            </div>
-
-            <div class="slots-column">
-              <label class="calendar-title">Lediga tider</label>
-
-              <div class="slots-box">
-                <div class="calendar-slots" id="available-slots">
-                  <p class="slot-message">
-                    Välj ett datum för att se lediga tider.
-                  </p>
-                </div>
-              </div>
+              <p class="selected-date-message" id="selected-date-message">Ingen dag är vald.</p>
             </div>
           </div>
 

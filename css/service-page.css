@@ -155,7 +155,6 @@ input[type="tel"]:focus {
   cursor: pointer;
 }
 
-
 .counter {
   display: flex;
   align-items: center;
@@ -199,38 +198,16 @@ input[type="date"] {
   font-size: 16px;
 }
 
-.calendar-slots {
-  display: grid;
-  grid-template-columns: 1fr;
-  gap: 12px;
+.calendar-column {
   width: 100%;
 }
 
-.calendar-column,
-.slots-column {
-  display: flex;
-  flex-direction: column;
-}
-
-.slots-box,
 .custom-calendar {
-  flex: 1;
-}
-
-.slot {
-  padding: 14px;
-  border-radius: 10px;
-  border: 1px solid rgba(216, 184, 106, 0.45);
-  background: transparent;
-  color: white;
-  font-size: 16px;
-  cursor: pointer;
-}
-
-.slot.selected {
-  background: linear-gradient(135deg, #f5e9bc, #c7a24a, #8f6826);
-  color: #091c31;
-  font-weight: 700;
+  width: 100%;
+  padding: 20px;
+  border: 1px solid var(--card-border);
+  border-radius: var(--radius-md);
+  background: rgba(255, 255, 255, 0.05);
 }
 
 .booking-calendar-area {
@@ -239,8 +216,7 @@ input[type="date"] {
   gap: 24px;
 }
 
-.custom-calendar,
-.slots-box {
+.custom-calendar {
   padding: 20px;
   border: 1px solid rgba(216, 184, 106, 0.35);
   border-radius: 16px;
@@ -282,8 +258,9 @@ input[type="date"] {
 .calendar-weekdays,
 .calendar-days {
   display: grid;
-  grid-template-columns: repeat(7, 1fr);
+  grid-template-columns: repeat(7, minmax(0, 1fr));
   gap: 8px;
+  width: 100%;
 }
 
 .calendar-weekdays span {
@@ -293,36 +270,70 @@ input[type="date"] {
 }
 
 .calendar-day {
+  width: 100%;
+  min-width: 0;
   aspect-ratio: 1;
   border: 1px solid rgba(216, 184, 106, 0.2);
-  border-radius: 10px;
+  border-radius: var(--radius-sm);
   background: rgba(255, 255, 255, 0.04);
-  color: white;
+  color: var(--white);
+  font: inherit;
   cursor: pointer;
+  transition:
+    background-color 0.25s ease,
+    border-color 0.25s ease,
+    transform 0.25s ease;
+}
+
+.calendar-day.unavailable,
+.calendar-day:disabled {
+  opacity: 0.28;
+  cursor: not-allowed;
+  color: var(--text-light);
+  border-color: rgba(255, 255, 255, 0.08);
+  background: rgba(255, 255, 255, 0.02);
+}
+
+.calendar-day.loading {
+  opacity: 0.45;
+  cursor: wait;
+}
+
+.calendar-empty {
+  width: 100%;
+  aspect-ratio: 1;
 }
 
 .calendar-day.available {
   border-color: rgba(216, 184, 106, 0.65);
 }
 
-.calendar-day.selected,
-.slot.selected {
-  background: linear-gradient(135deg, #f5e9bc, #c7a24a, #8f6826);
-  color: #091c31;
+.calendar-day.available:hover {
+  transform: translateY(-2px);
+  background: rgba(216, 184, 106, 0.12);
+}
+
+.calendar-day.selected {
+  background: linear-gradient(
+    135deg,
+    var(--gold-light),
+    var(--gold-main),
+    var(--gold-dark)
+  );
+  color: var(--blue-dark);
   font-weight: 800;
 }
 
-.calendar-day.disabled {
-  opacity: 0.25;
-  cursor: default;
+.selected-date-message {
+  margin: 14px 0 0;
+  min-height: 24px;
+  color: var(--text-light);
+  font-size: 15px;
 }
 
-.slot-message {
-  width: 100%;
-  margin: 0;
-  font-size: 16px;
-  line-height: 1.6;
-  color: #d4d7dd;
+.selected-date-message.has-selection {
+  color: var(--gold-light);
+  font-weight: 600;
 }
 
 .submit-btn {
@@ -376,15 +387,6 @@ input[type="date"] {
   .checkbox-grid {
     grid-template-columns: 1fr 1fr;
   }
-
-  .calendar-slots {
-    grid-template-columns: 1fr;
-  }
-}
-@media (min-width: 900px) {
-  .booking-calendar-area {
-    grid-template-columns: 1.2fr 0.8fr;
-  }
 }
 
 /* DESKTOP */
@@ -424,12 +426,10 @@ input[type="date"] {
   }
 
   .booking-calendar-area {
-    width: 100%;
-    gap: 28px;
+    display: block;
   }
 
-  .custom-calendar,
-  .slots-box {
+  .custom-calendar {
     width: 100%;
     min-height: auto;
     padding: 16px 12px;
@@ -461,14 +461,6 @@ input[type="date"] {
 
   .calendar-weekdays span {
     font-size: 13px;
-  }
-
-  .calendar-slots {
-    grid-template-columns: 1fr;
-  }
-
-  .slot {
-    width: 100%;
   }
 }
 

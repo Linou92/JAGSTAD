@@ -1,44 +1,48 @@
 document.addEventListener("DOMContentLoaded", () => {
-  /* =========================
-     ELEMENTS
-  ========================= */
-
   const monthTitle = document.getElementById("calendar-month");
   const calendarDays = document.getElementById("calendar-days");
-  const slotsContainer = document.getElementById("available-slots");
 
   const prevBtn = document.getElementById("prev-month");
   const nextBtn = document.getElementById("next-month");
 
-  const bookingForm = document.querySelector(".booking-form");
-  const confirmation = document.getElementById("booking-confirmation");
+  const selectedDateMessage = document.getElementById(
+    "selected-date-message"
+  );
 
   if (
     !monthTitle ||
     !calendarDays ||
-    !slotsContainer ||
     !prevBtn ||
-    !nextBtn
+    !nextBtn ||
+    !selectedDateMessage
   ) {
-    console.error("Calendar elements could not be found.");
+    console.error("Calendar HTML elements are missing.", {
+      monthTitle,
+      calendarDays,
+      prevBtn,
+      nextBtn,
+      selectedDateMessage,
+    });
+
     return;
   }
 
-  /* =========================
-     CALENDAR STATE
-  ========================= */
+  const bookingForm = document.querySelector(".booking-form");
+  const confirmation = document.getElementById(
+    "booking-confirmation"
+  );
 
   const today = new Date();
   today.setHours(0, 0, 0, 0);
 
-  let currentDate = new Date(today.getFullYear(), today.getMonth(), 1);
+  let currentMonth = new Date(
+    today.getFullYear(),
+    today.getMonth(),
+    1
+  );
 
+  let monthAvailability = new Map();
   let selectedDate = null;
-  let selectedSlot = null;
-
-  /* =========================
-     DATE HELPERS
-  ========================= */
 
   function formatDate(year, month, day) {
     return `${year}-${String(month + 1).padStart(2, "0")}-${String(
@@ -46,300 +50,279 @@ document.addEventListener("DOMContentLoaded", () => {
     ).padStart(2, "0")}`;
   }
 
-  function isPastDate(year, month, day) {
-    const date = new Date(year, month, day);
-    date.setHours(0, 0, 0, 0);
-
-    return date < today;
+  function formatMonth(date) {
+    return `${date.getFullYear()}-${String(
+      date.getMonth() + 1
+    ).padStart(2, "0")}`;
   }
 
   function isCurrentMonth() {
     return (
-      currentDate.getFullYear() === today.getFullYear() &&
-      currentDate.getMonth() === today.getMonth()
+      currentMonth.getFullYear() === today.getFullYear() &&
+      currentMonth.getMonth() === today.getMonth()
     );
   }
 
-  /* =========================
-     RENDER CALENDAR
-  ========================= */
+async function loadMonthAvailability() {
+  /*
+   * First render all dates as disabled/loading.
+   * This prevents the calendar from appearing empty
+   * while Netlify is loading.
+   */
+  monthAvailability = new Map();
+  renderCalendar(true);
 
-  function renderCalendar() {
-    calendarDays.innerHTML = "";
+  try {
+    const month = formatMonth(currentMonth);
 
-    const year = currentDate.getFullYear();
-    const month = currentDate.getMonth();
+    const response = await fetch(
+      `/.netlify/functions/get-availability?month=${encodeURIComponent(
+        month
+      )}`
+    );
 
-    monthTitle.textContent = currentDate.toLocaleDateString("sv-SE", {
+    const contentType =
+      response.headers.get("content-type") || "";
+
+    if (!contentType.includes("application/json")) {
+      const responseText = await response.text();
+
+      console.error("Unexpected server response:", responseText);
+
+      throw new Error(
+        `Servern returnerade ett oväntat svar (${response.status}).`
+      );
+    }
+
+    const data = await response.json();
+
+    console.log("Availability response:", data);
+
+    if (!response.ok) {
+      throw new Error(
+        data.error || "Kunde inte hämta lediga dagar."
+      );
+    }
+
+    monthAvailability = new Map();
+
+    /*
+     * Available days returned as objects:
+     *
+     * {
+     *   date: "2026-08-10",
+     *   bookingCount: 1,
+     *   remainingBookings: 1
+     * }
+     */
+    data.availableDays?.forEach((day) => {
+      monthAvailability.set(day.date, {
+        available: true,
+        bookingCount: day.bookingCount || 0,
+        remainingBookings: day.remainingBookings || 0,
+      });
+    });
+
+    /*
+     * This supports both possible backend formats:
+     *
+     * "2026-08-10"
+     *
+     * or:
+     *
+     * {
+     *   date: "2026-08-10",
+     *   bookingCount: 2
+     * }
+     */
+    data.unavailableDays?.forEach((day) => {
+      const date =
+        typeof day === "string"
+          ? day
+          : day.date;
+
+      const bookingCount =
+        typeof day === "string"
+          ? 0
+          : day.bookingCount || 0;
+
+      if (!date) {
+        return;
+      }
+
+      monthAvailability.set(date, {
+        available: false,
+        bookingCount,
+        remainingBookings: 0,
+      });
+    });
+
+    renderCalendar(false);
+  } catch (error) {
+    console.error("Availability error:", error);
+
+    /*
+     * Still show the month dates, but disable them
+     * because availability could not be verified.
+     */
+    monthAvailability = new Map();
+    renderCalendar(false, true);
+
+    selectedDateMessage.textContent =
+      "Det gick inte att hämta lediga dagar. Försök igen senare.";
+
+    selectedDateMessage.classList.add("calendar-error");
+  }
+}
+
+function renderCalendar(isLoading = false, hasError = false) {
+  calendarDays.innerHTML = "";
+
+  const year = currentMonth.getFullYear();
+  const month = currentMonth.getMonth();
+
+  monthTitle.textContent =
+    currentMonth.toLocaleDateString("sv-SE", {
       month: "long",
       year: "numeric",
     });
 
-    /*
-     * Prevent users from navigating to months
-     * before the current month.
-     */
-    prevBtn.disabled = isCurrentMonth();
+  prevBtn.disabled = isCurrentMonth();
 
-    const firstDayOfMonth = new Date(year, month, 1);
-    const numberOfDays = new Date(year, month + 1, 0).getDate();
+  const firstDay = new Date(year, month, 1);
+  const lastDate = new Date(
+    year,
+    month + 1,
+    0
+  ).getDate();
 
-    /*
-     * JavaScript uses Sunday = 0.
-     * This changes it so Monday becomes the first day.
-     */
-    let startOffset = firstDayOfMonth.getDay() - 1;
+  /*
+   * JavaScript:
+   * Sunday = 0
+   * Monday = 1
+   *
+   * Calendar:
+   * Monday should be first.
+   */
+  let startOffset = firstDay.getDay() - 1;
 
-    if (startOffset < 0) {
-      startOffset = 6;
-    }
-
-    /*
-     * Add empty cells before day 1.
-     */
-    for (let i = 0; i < startOffset; i++) {
-      const emptyCell = document.createElement("div");
-      emptyCell.className = "calendar-empty";
-      calendarDays.appendChild(emptyCell);
-    }
-
-    /*
-     * Create each date button.
-     */
-    for (let day = 1; day <= numberOfDays; day++) {
-      const fullDate = formatDate(year, month, day);
-
-      const button = document.createElement("button");
-
-      button.type = "button";
-      button.className = "calendar-day";
-      button.textContent = day;
-      button.dataset.date = fullDate;
-
-      if (isPastDate(year, month, day)) {
-        button.classList.add("disabled");
-        button.disabled = true;
-      } else {
-        button.classList.add("available");
-
-        button.addEventListener("click", () => {
-          selectDate(button, fullDate);
-        });
-      }
-
-      if (fullDate === selectedDate) {
-        button.classList.add("selected");
-      }
-
-      calendarDays.appendChild(button);
-    }
+  if (startOffset < 0) {
+    startOffset = 6;
   }
 
-  /* =========================
-     SELECT DATE
-  ========================= */
+  for (let index = 0; index < startOffset; index++) {
+    const emptyCell = document.createElement("div");
+    emptyCell.className = "calendar-empty";
+    calendarDays.appendChild(emptyCell);
+  }
+
+  for (let day = 1; day <= lastDate; day++) {
+    const fullDate = formatDate(year, month, day);
+    const availability =
+      monthAvailability.get(fullDate);
+
+    const button = document.createElement("button");
+
+    button.type = "button";
+    button.className = "calendar-day";
+    button.textContent = day;
+    button.dataset.date = fullDate;
+
+    if (isLoading) {
+      button.classList.add("loading");
+      button.disabled = true;
+      button.title = "Hämtar tillgänglighet";
+    } else if (hasError) {
+      button.classList.add("unavailable");
+      button.disabled = true;
+      button.title =
+        "Tillgängligheten kunde inte kontrolleras";
+    } else if (availability?.available) {
+      button.classList.add("available");
+
+      button.title =
+        availability.remainingBookings === 1
+          ? "1 bokning kvar denna dag"
+          : "2 bokningar kvar denna dag";
+
+      button.addEventListener("click", () => {
+        selectDate(button, fullDate);
+      });
+    } else {
+      button.classList.add("unavailable");
+      button.disabled = true;
+
+      button.title =
+        availability?.bookingCount >= 2
+          ? "Fullbokad"
+          : "Inte tillgänglig";
+    }
+
+    if (fullDate === selectedDate) {
+      button.classList.add("selected");
+    }
+
+    calendarDays.appendChild(button);
+  }
+}
 
   function selectDate(button, fullDate) {
-    document.querySelectorAll(".calendar-day").forEach((dayButton) => {
-      dayButton.classList.remove("selected");
-    });
+    document.querySelectorAll(".calendar-day").forEach(
+      (dayButton) => {
+        dayButton.classList.remove("selected");
+      }
+    );
 
     button.classList.add("selected");
-
     selectedDate = fullDate;
-    selectedSlot = null;
 
-    loadAvailableTimes(fullDate);
-  }
-
-  /* =========================
-     GOOGLE CALENDAR AVAILABILITY
-  ========================= */
-
-  async function loadAvailableTimes(date) {
-    slotsContainer.innerHTML = `
-      <p class="slot-message">
-        Hämtar lediga tider...
-      </p>
-    `;
-
-    try {
-      const response = await fetch(
-        `/.netlify/functions/get-availability?date=${encodeURIComponent(date)}`
-      );
-
-      /*
-       * A Netlify error can sometimes return HTML instead
-       * of JSON, so read the response safely.
-       */
-      const contentType = response.headers.get("content-type") || "";
-
-      if (!contentType.includes("application/json")) {
-        throw new Error(
-          `Servern returnerade ett oväntat svar (${response.status}).`
-        );
-      }
-
-      const data = await response.json();
-
-      if (!response.ok) {
-        throw new Error(data.error || "Kunde inte hämta lediga tider.");
-      }
-
-      renderAvailableTimes(data.slots || []);
-    } catch (error) {
-      console.error("Availability error:", error);
-
-      slotsContainer.innerHTML = `
-        <p class="slot-message">
-          Det gick inte att hämta lediga tider. Försök igen senare.
-        </p>
-      `;
-    }
-  }
-
-  /* =========================
-     RENDER TIME SLOTS
-  ========================= */
-
-  function renderAvailableTimes(slots) {
-    slotsContainer.innerHTML = "";
-
-    if (slots.length === 0) {
-      slotsContainer.innerHTML = `
-        <p class="slot-message">
-          Det finns inga lediga tider för detta datum.
-        </p>
-      `;
-      return;
-    }
-
-    slots.forEach((slotData) => {
-      const slotButton = document.createElement("button");
-
-      slotButton.type = "button";
-      slotButton.className = "slot";
-      slotButton.textContent = slotData.label;
-
-      slotButton.dataset.start = slotData.start;
-      slotButton.dataset.end = slotData.end;
-
-      slotButton.addEventListener("click", () => {
-        document.querySelectorAll(".slot").forEach((button) => {
-          button.classList.remove("selected");
-        });
-
-        slotButton.classList.add("selected");
-
-        selectedSlot = {
-          start: slotData.start,
-          end: slotData.end,
-          label: slotData.label,
-        };
-      });
-
-      slotsContainer.appendChild(slotButton);
+    const readableDate = new Date(
+      `${fullDate}T12:00:00`
+    ).toLocaleDateString("sv-SE", {
+      weekday: "long",
+      day: "numeric",
+      month: "long",
+      year: "numeric",
     });
-  }
 
-  /* =========================
-     MONTH NAVIGATION
-  ========================= */
+    selectedDateMessage.textContent =
+      `Vald dag: ${readableDate}`;
+
+    selectedDateMessage.classList.add("has-selection");
+  }
 
   prevBtn.addEventListener("click", () => {
     if (isCurrentMonth()) {
       return;
     }
 
-    currentDate = new Date(
-      currentDate.getFullYear(),
-      currentDate.getMonth() - 1,
+    currentMonth = new Date(
+      currentMonth.getFullYear(),
+      currentMonth.getMonth() - 1,
       1
     );
 
     selectedDate = null;
-    selectedSlot = null;
-
-    resetSlotsMessage();
-    renderCalendar();
+    resetSelectedDateMessage();
+    loadMonthAvailability();
   });
 
   nextBtn.addEventListener("click", () => {
-    currentDate = new Date(
-      currentDate.getFullYear(),
-      currentDate.getMonth() + 1,
+    currentMonth = new Date(
+      currentMonth.getFullYear(),
+      currentMonth.getMonth() + 1,
       1
     );
 
     selectedDate = null;
-    selectedSlot = null;
-
-    resetSlotsMessage();
-    renderCalendar();
+    resetSelectedDateMessage();
+    loadMonthAvailability();
   });
 
-  function resetSlotsMessage() {
-    slotsContainer.innerHTML = `
-      <p class="slot-message">
-        Välj ett datum för att se lediga tider.
-      </p>
-    `;
+  function resetSelectedDateMessage() {
+    selectedDateMessage.textContent = "Ingen dag är vald.";
+    selectedDateMessage.classList.remove("has-selection");
   }
-
-  /* =========================
-     ROOM COUNTERS
-  ========================= */
-
-  document.querySelectorAll(".room-item").forEach((item) => {
-    const checkbox = item.querySelector('input[type="checkbox"]');
-    const minusButton = item.querySelector(".minus");
-    const plusButton = item.querySelector(".plus");
-    const countElement = item.querySelector(".count");
-
-    if (!minusButton || !plusButton || !countElement) {
-      return;
-    }
-
-    function setCount(value) {
-      const safeValue = Math.max(0, value);
-
-      countElement.textContent = String(safeValue);
-
-      /*
-       * Selecting a quantity automatically checks the room.
-       * Returning to zero automatically unchecks it.
-       */
-      if (checkbox) {
-        checkbox.checked = safeValue > 0;
-      }
-    }
-
-    plusButton.addEventListener("click", () => {
-      const currentCount = Number(countElement.textContent) || 0;
-      setCount(currentCount + 1);
-    });
-
-    minusButton.addEventListener("click", () => {
-      const currentCount = Number(countElement.textContent) || 0;
-      setCount(currentCount - 1);
-    });
-
-    checkbox?.addEventListener("change", () => {
-      const currentCount = Number(countElement.textContent) || 0;
-
-      if (checkbox.checked && currentCount === 0) {
-        setCount(1);
-      }
-
-      if (!checkbox.checked) {
-        setCount(0);
-      }
-    });
-  });
-
-  /* =========================
-     FORM SUBMISSION
-  ========================= */
 
   bookingForm?.addEventListener("submit", (event) => {
     event.preventDefault();
@@ -352,73 +335,27 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     if (!selectedDate) {
-      showCalendarError("Välj ett datum innan du skickar förfrågan.");
+      selectedDateMessage.textContent =
+        "Välj en ledig dag innan du skickar förfrågan.";
+
+      selectedDateMessage.classList.add("has-selection");
+
+      selectedDateMessage.scrollIntoView({
+        behavior: "smooth",
+        block: "center",
+      });
+
       return;
     }
 
-    if (!selectedSlot) {
-      showCalendarError("Välj en ledig tid innan du skickar förfrågan.");
-      return;
-    }
+    console.log("Selected booking day:", selectedDate);
 
     /*
-     * For now this only validates the form and displays
-     * the confirmation. It does not create a Google
-     * Calendar event yet.
+     * Later, send selectedDate to create-booking.
+     * The backend must choose the first available
+     * slot for that day.
      */
-    console.log("Booking data:", {
-      date: selectedDate,
-      slot: selectedSlot,
-    });
-
-    confirmation?.classList.add("show");
-
-    bookingForm.reset();
-    resetRoomCounters();
-
-    selectedDate = null;
-    selectedSlot = null;
-
-    resetSlotsMessage();
-    renderCalendar();
-
-    confirmation?.scrollIntoView({
-      behavior: "smooth",
-      block: "center",
-    });
   });
 
-  function showCalendarError(message) {
-    slotsContainer.innerHTML = `
-      <p class="slot-message slot-message--error">
-        ${message}
-      </p>
-    `;
-
-    slotsContainer.scrollIntoView({
-      behavior: "smooth",
-      block: "center",
-    });
-  }
-
-  function resetRoomCounters() {
-    document.querySelectorAll(".room-item").forEach((item) => {
-      const checkbox = item.querySelector('input[type="checkbox"]');
-      const countElement = item.querySelector(".count");
-
-      if (checkbox) {
-        checkbox.checked = false;
-      }
-
-      if (countElement) {
-        countElement.textContent = "0";
-      }
-    });
-  }
-
-  /* =========================
-     INITIALIZE
-  ========================= */
-
-  renderCalendar();
+  loadMonthAvailability();
 });
