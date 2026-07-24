@@ -216,14 +216,6 @@ input[type="date"] {
   gap: 24px;
 }
 
-.custom-calendar {
-  padding: 20px;
-  border: 1px solid rgba(216, 184, 106, 0.35);
-  border-radius: 16px;
-  background: rgba(255, 255, 255, 0.05);
-  min-height: 380px;
-}
-
 .calendar-title {
   display: block;
   margin-bottom: 14px;
@@ -304,7 +296,10 @@ input[type="date"] {
 
 .calendar-empty {
   width: 100%;
-  aspect-ratio: 1;
+  height: 0;
+  min-height: 0;
+  aspect-ratio: auto;
+  visibility: hidden;
 }
 
 .calendar-day.available {
