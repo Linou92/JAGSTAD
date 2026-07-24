@@ -1,5 +1,5 @@
 const { DateTime } = require("luxon");
-const { getCalendarClient } = require("./utils/calendar-client");
+const { getCalendarClient } = require("calendar-client");
 
 const TIME_ZONE =
   process.env.GOOGLE_CALENDAR_TIMEZONE || "Europe/Stockholm";
