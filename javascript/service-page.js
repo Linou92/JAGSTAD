@@ -307,67 +307,42 @@ document.addEventListener("DOMContentLoaded", () => {
     const checkbox = roomItem.querySelector(
       'input[type="checkbox"][name="rooms"]',
     );
+
     const countElement = roomItem.querySelector(".count");
     const minusButton = roomItem.querySelector(".minus");
     const plusButton = roomItem.querySelector(".plus");
 
     if (!checkbox || !countElement || !minusButton || !plusButton) {
+      console.warn("Room counter elements are missing:", roomItem);
       return;
     }
 
-    plusButton.addEventListener("click", () => {
-      const count = Number(countElement.textContent) || 0;
+    plusButton.type = "button";
+    minusButton.type = "button";
 
-      countElement.textContent = count + 1;
+    plusButton.addEventListener("click", () => {
+      const currentCount = Number(countElement.textContent) || 0;
+
+      countElement.textContent = String(currentCount + 1);
       checkbox.checked = true;
     });
 
     minusButton.addEventListener("click", () => {
-      const count = Number(countElement.textContent) || 0;
-      const newCount = Math.max(0, count - 1);
+      const currentCount = Number(countElement.textContent) || 0;
+      const newCount = Math.max(0, currentCount - 1);
 
-      countElement.textContent = newCount;
-
-      if (newCount === 0) {
-        checkbox.checked = false;
-      }
+      countElement.textContent = String(newCount);
+      checkbox.checked = newCount > 0;
     });
 
     checkbox.addEventListener("change", () => {
-      const count = Number(countElement.textContent) || 0;
+      const currentCount = Number(countElement.textContent) || 0;
 
-      if (checkbox.checked && count === 0) {
+      if (checkbox.checked && currentCount === 0) {
         countElement.textContent = "1";
       }
 
       if (!checkbox.checked) {
-        countElement.textContent = "0";
-      }
-    });
-
-    plusButton.addEventListener("click", () => {
-      count += 1;
-      countElement.textContent = count;
-      checkbox.checked = true;
-    });
-
-    minusButton.addEventListener("click", () => {
-      count = Math.max(0, count - 1);
-      countElement.textContent = count;
-
-      if (count === 0) {
-        checkbox.checked = false;
-      }
-    });
-
-    checkbox.addEventListener("change", () => {
-      if (checkbox.checked && count === 0) {
-        count = 1;
-        countElement.textContent = count;
-      }
-
-      if (!checkbox.checked) {
-        count = 0;
         countElement.textContent = "0";
       }
     });

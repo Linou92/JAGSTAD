@@ -229,7 +229,7 @@ exports.handler = async function handler(event) {
     const formattedDate = formatSwedishDate(booking.selectedDate);
 
     const bookingReference =
-      `JAG-${booking.selectedDate.replaceAll("-", "")}-` +
+      `BOKNING-${booking.selectedDate.replaceAll("-", "")}-` +
       Math.random().toString(36).slice(2, 7).toUpperCase();
 
     const detailsText = [
