@@ -21,6 +21,8 @@
     "homepage": "https://github.com/Linou92/JAGST-D#readme",
     "dependencies": {
         "googleapis": "^173.0.0",
-        "luxon": "^3.7.2"
+        "luxon": "^3.7.2",
+        "resend": "^6.18.0",
+        "twilio": "^6.0.2"
     }
 }

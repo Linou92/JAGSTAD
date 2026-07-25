@@ -10,7 +10,7 @@
     <link rel="stylesheet" href="css/service-page.css" />
   </head>
 
-  <body>
+  <body data-service="Hemstäd">
     <main class="service-page">
       <section class="service-hero">
         <a href="index.html" class="back-link">← Tillbaka</a>
@@ -25,14 +25,25 @@
       </section>
 
       <section class="booking-section">
-        <form class="booking-form">
+        <form class="booking-form" id="booking-form">
           <div class="form-group">
             <label for="client">Kundsnamn</label>
             <input
               type="text"
               id="client"
-              name="client"
+              name="name"
               placeholder="Ex. John Doe"
+              required
+            />
+          </div>
+
+          <div class="form-group">
+            <label for="email">E-postadress</label>
+            <input
+              type="email"
+              id="email"
+              name="email"
+              placeholder="Ex. kund@email.se"
               required
             />
           </div>
@@ -66,33 +77,30 @@
               <label
                 ><input
                   type="checkbox"
-                  name="options"
-                  value="Regelbunden städning"
+                  name="cleaningOptions"
                 />
                 Regelbunden städning</label
               >
               <label
-                ><input type="checkbox" name="options" value="Storstädning" />
+                ><input type="checkbox" name="cleaningOptions"/>
                 Storstädning</label
               >
               <label
-                ><input type="checkbox" name="options" value="Fönsterputs" />
+                ><input type="checkbox" name="cleaningOptions/>
                 Fönsterputs</label
               >
               <label
                 ><input
                   type="checkbox"
-                  name="options"
-                  value="Vikning/Strykning av kläder"
-                />
+                  name="cleaningOptions"
+                                  />
                 Vikning/Strykning av kläder</label
               >
               <label
                 ><input
                   type="checkbox"
-                  name="options"
-                  value="Kyl- och ugnsrengöring"
-                />
+                  name="cleaningOptions"
+                                  />
                 Kyl- och ugnsrengöring</label
               >
             </div>
@@ -104,7 +112,7 @@
             <div class="rooms-list">
               <div class="room-item">
                 <label>
-                  <input type="checkbox" name="rooms" value="Kök" />
+                  <input type="checkbox" name="cleaningOptions"/>
                   Kök
                 </label>
 
@@ -117,7 +125,7 @@
 
               <div class="room-item">
                 <label>
-                  <input type="checkbox" name="rooms" value="Badrum" />
+                  <input type="checkbox" name="cleaningOptions"/>
                   Badrum
                 </label>
 
@@ -130,7 +138,7 @@
 
               <div class="room-item">
                 <label>
-                  <input type="checkbox" name="rooms" value="Sovrum" />
+                  <input type="checkbox" name="cleaningOptions"/>
                   Sovrum
                 </label>
 
@@ -143,7 +151,7 @@
 
               <div class="room-item">
                 <label>
-                  <input type="checkbox" name="rooms" value="Vardagsrum" />
+                  <input type="checkbox" name="cleaningOptions"/>
                   Vardagsrum
                 </label>
 
@@ -156,7 +164,7 @@
 
               <div class="room-item">
                 <label>
-                  <input type="checkbox" name="rooms" value="Hall" />
+                  <input type="checkbox" name="cleaningOptions"/>
                   Hall
                 </label>
 
@@ -169,7 +177,7 @@
 
               <div class="room-item">
                 <label>
-                  <input type="checkbox" name="rooms" value="Tvättstuga" />
+                  <input type="checkbox" name="cleaningOptions"/>
                   Tvättstuga
                 </label>
 
@@ -182,7 +190,7 @@
 
               <div class="room-item">
                 <label>
-                  <input type="checkbox" name="rooms" value="Balkong" />
+                  <input type="checkbox" name="cleaningOptions"/>
                   Balkong
                 </label>
 
@@ -201,9 +209,21 @@
 
               <div class="custom-calendar">
                 <div class="calendar-header">
-                  <button type="button" id="prev-month" aria-label="Föregående månad">‹</button>
+                  <button
+                    type="button"
+                    id="prev-month"
+                    aria-label="Föregående månad"
+                  >
+                    ‹
+                  </button>
                   <h3 id="calendar-month"></h3>
-                  <button type="button" id="next-month" aria-label="Nästa månad">›</button>
+                  <button
+                    type="button"
+                    id="next-month"
+                    aria-label="Nästa månad"
+                  >
+                    ›
+                  </button>
                 </div>
 
                 <div class="calendar-weekdays">
@@ -214,13 +234,16 @@
 
                 <div class="calendar-days" id="calendar-days"></div>
               </div>
-              <p class="selected-date-message" id="selected-date-message">Ingen dag är vald.</p>
+              <p class="selected-date-message" id="selected-date-message">
+                Ingen dag är vald.
+              </p>
             </div>
           </div>
 
-          <button type="submit" class="submit-btn">
+          <button type="submit" class="submit-btn" id="booking-submit">
             Skicka bokningsförfrågan
           </button>
+          <p id="booking-status" class="booking-status" aria-live="polite"></p>
           <p class="booking-confirmation" id="booking-confirmation">
             Tack! Din bokningsförfrågan har skickats. Vi kontaktar dig snart.
           </p>

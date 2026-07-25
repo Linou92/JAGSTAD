@@ -10,7 +10,7 @@
     <link rel="stylesheet" href="css/service-page.css" />
   </head>
 
-  <body>
+  <body data-service="Flyttstäd">
     <main class="service-page">
       <section class="service-hero">
         <a href="index.html" class="back-link">← Tillbaka</a>
@@ -25,14 +25,25 @@
       </section>
 
       <section class="booking-section">
-        <form class="booking-form">
+        <form class="booking-form" id="booking-form">
           <div class="form-group">
             <label for="client">Kundsnamn</label>
             <input
               type="text"
               id="client"
-              name="client"
+              name="name"
               placeholder="Ex. John Doe"
+              required
+            />
+          </div>
+
+          <div class="form-group">
+            <label for="email">E-postadress</label>
+            <input
+              type="email"
+              id="email"
+              name="email"
+              placeholder="Ex. kund@email.se"
               required
             />
           </div>
@@ -52,8 +63,8 @@
             <label for="area-size">Bostadens storlek</label>
             <input
               type="text"
-              id="area-size"
-              name="areaSize"
+              id="area"
+              name="area"
               placeholder="Ex. 80 kvm"
               required
             />
@@ -63,8 +74,8 @@
             <label for="area-size">Antal sovrum </label>
             <input
               type="text"
-              id="area-size"
-              name="areaSize"
+              id="bedrooms"
+              name="bedrooms"
               placeholder="Ex. 4"
               required
             />
@@ -74,8 +85,8 @@
             <label for="area-size">Antal badrum </label>
             <input
               type="text"
-              id="area-size"
-              name="areaSize"
+              id="bathrooms"
+              name="bathrooms"
               placeholder="Ex. 2"
               required
             />
@@ -86,19 +97,19 @@
 
             <div class="checkbox-grid">
               <label
-                ><input type="checkbox" name="rooms" value="Balkong/Uteplats" />
+                ><input type="checkbox" name="cleaningOptions"/>
                 Balkong/Uteplats</label
               >
               <label
-                ><input type="checkbox" name="rooms" value="Förråd" />
+                ><input type="checkbox" name="cleaningOptions"/>
                 Förråd</label
               >
               <label
-                ><input type="checkbox" name="rooms" value="Garage" />
+                ><input type="checkbox" name="cleaningOptions" value="Garage" />
                 Garage</label
               >
               <label
-                ><input type="checkbox" name="rooms" value="Inglasad balkong" />
+                ><input type="checkbox" name="cleaningOptions" value="Inglasad balkong" />
                 Inglasad balkong</label
               >
             </div>
@@ -110,9 +121,21 @@
 
               <div class="custom-calendar">
                 <div class="calendar-header">
-                  <button type="button" id="prev-month" aria-label="Föregående månad">‹</button>
+                  <button
+                    type="button"
+                    id="prev-month"
+                    aria-label="Föregående månad"
+                  >
+                    ‹
+                  </button>
                   <h3 id="calendar-month"></h3>
-                  <button type="button" id="next-month" aria-label="Nästa månad">›</button>
+                  <button
+                    type="button"
+                    id="next-month"
+                    aria-label="Nästa månad"
+                  >
+                    ›
+                  </button>
                 </div>
 
                 <div class="calendar-weekdays">
@@ -123,13 +146,16 @@
 
                 <div class="calendar-days" id="calendar-days"></div>
               </div>
-              <p class="selected-date-message" id="selected-date-message">Ingen dag är vald.</p>
+              <p class="selected-date-message" id="selected-date-message">
+                Ingen dag är vald.
+              </p>
             </div>
           </div>
 
-          <button type="submit" class="submit-btn">
+          <button type="submit" class="submit-btn" id="booking-submit">
             Skicka bokningsförfrågan
           </button>
+          <p id="booking-status" class="booking-status" aria-live="polite"></p>
           <p class="booking-confirmation" id="booking-confirmation">
             Tack! Din bokningsförfrågan har skickats. Vi kontaktar dig snart.
           </p>

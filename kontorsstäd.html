@@ -10,7 +10,7 @@
     <link rel="stylesheet" href="css/service-page.css" />
   </head>
 
-  <body>
+  <body data-service="Kontorsstäd">
     <main class="service-page">
       <section class="service-hero">
         <a href="index.html" class="back-link">← Tillbaka</a>
@@ -27,14 +27,25 @@
       </section>
 
       <section class="booking-section">
-        <form class="booking-form">
+        <form class="booking-form" id="booking-form">
           <div class="form-group">
             <label for="company">Företagsnamn</label>
             <input
               type="text"
               id="company"
-              name="company"
+              name="companyName"
               placeholder="Ex. J.A.G Städ AB"
+              required
+            />
+          </div>
+
+          <div class="form-group">
+            <label for="email">E-postadress</label>
+            <input
+              type="email"
+              id="email"
+              name="email"
+              placeholder="Ex. kund@email.se"
               required
             />
           </div>
@@ -57,26 +68,26 @@
               <label
                 ><input
                   type="checkbox"
-                  name="options"
-                  value="Regelbunden städning"
+                  name="cleaningOptions"
+                  
                 />
                 Regelbunden städning
               </label>
               <label
-                ><input type="checkbox" name="options" value="Storstädning" />
+                ><input type="checkbox" name="cleaningOptions" />
                 Storstädning
               </label>
               <label
-                ><input type="checkbox" name="options" value="Fönsterputs" />
+                ><input type="checkbox" name="cleaningOptions"/>
                 Fönsterputs
               </label>
               <label
-                ><input type="checkbox" name="options" value="Golvvård" />
+                ><input type="checkbox" name="cleaningOptions"/>
                 Golvvård
               </label>
 
               <label
-                ><input type="checkbox" name="options" value="Desinficering" />
+                ><input type="checkbox" name="cleaningOptions"/>
                 Desinficering
               </label>
             </div>
@@ -88,7 +99,7 @@
             <div class="rooms-list">
               <div class="room-item">
                 <label>
-                  <input type="checkbox" name="rooms" value="Kontor" />
+                  <input type="checkbox" name="cleaningOptions"/>
                   Kontor
                 </label>
 
@@ -101,7 +112,7 @@
 
               <div class="room-item">
                 <label>
-                  <input type="checkbox" name="rooms" value="Konferensrum" />
+                  <input type="checkbox" name="cleaningOptions"/>
                   Konferensrum
                 </label>
 
@@ -114,7 +125,7 @@
 
               <div class="room-item">
                 <label>
-                  <input type="checkbox" name="rooms" value="Reception" />
+                  <input type="checkbox" name="cleaningOptions"/>
                   Reception
                 </label>
 
@@ -127,7 +138,7 @@
 
               <div class="room-item">
                 <label>
-                  <input type="checkbox" name="rooms" value="Kök/Pentry" />
+                  <input type="checkbox" name="cleaningOptions"/>
                   Kök/Pentry
                 </label>
 
@@ -140,7 +151,7 @@
 
               <div class="room-item">
                 <label>
-                  <input type="checkbox" name="rooms" value="Toaletter" />
+                  <input type="checkbox" name="cleaningOptions"/>
                   Toaletter
                 </label>
 
@@ -153,7 +164,7 @@
 
               <div class="room-item">
                 <label>
-                  <input type="checkbox" name="rooms" value="Korridorer" />
+                  <input type="checkbox" name="cleaningOptions"/>
                   Korridorer
                 </label>
 
@@ -166,7 +177,7 @@
 
               <div class="room-item">
                 <label>
-                  <input type="checkbox" name="rooms" value="Trappor" />
+                  <input type="checkbox" name="cleaningOptions" value="Trappor" />
                   Trappor
                 </label>
 
@@ -179,7 +190,7 @@
 
               <div class="room-item">
                 <label>
-                  <input type="checkbox" name="rooms" value="Personalrum" />
+                  <input type="checkbox" name="cleaningOptions" value="Personalrum" />
                   Personalrum
                 </label>
 
@@ -198,9 +209,21 @@
 
               <div class="custom-calendar">
                 <div class="calendar-header">
-                  <button type="button" id="prev-month" aria-label="Föregående månad">‹</button>
+                  <button
+                    type="button"
+                    id="prev-month"
+                    aria-label="Föregående månad"
+                  >
+                    ‹
+                  </button>
                   <h3 id="calendar-month"></h3>
-                  <button type="button" id="next-month" aria-label="Nästa månad">›</button>
+                  <button
+                    type="button"
+                    id="next-month"
+                    aria-label="Nästa månad"
+                  >
+                    ›
+                  </button>
                 </div>
 
                 <div class="calendar-weekdays">
@@ -211,13 +234,16 @@
 
                 <div class="calendar-days" id="calendar-days"></div>
               </div>
-              <p class="selected-date-message" id="selected-date-message">Ingen dag är vald.</p>
+              <p class="selected-date-message" id="selected-date-message">
+                Ingen dag är vald.
+              </p>
             </div>
           </div>
 
-          <button type="submit" class="submit-btn">
+          <button type="submit" class="submit-btn" id="booking-submit">
             Skicka bokningsförfrågan
           </button>
+          <p id="booking-status" class="booking-status" aria-live="polite"></p>
           <p class="booking-confirmation" id="booking-confirmation">
             Tack! Din bokningsförfrågan har skickats. Vi kontaktar dig snart.
           </p>
