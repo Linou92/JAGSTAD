@@ -319,7 +319,7 @@ exports.handler = async function handler(event) {
 
         <p>Vänliga hälsningar,<br>Elite Städ Och Service</p>
       </div>
-    `;
+    `;*/
 
     const adminEmailHtml = `
       <div style="font-family:Arial,sans-serif;line-height:1.6;color:#173c60">
@@ -342,7 +342,7 @@ exports.handler = async function handler(event) {
           </tbody>
         </table>
       </div>
-    `;*/
+    `;
 
     /*
      * Send the client and admin emails together.
