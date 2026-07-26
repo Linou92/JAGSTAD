@@ -22,6 +22,11 @@
   background: var(--blue-dark);
 }
 
+.top-section::before {
+  content: "";
+  display: none;
+}
+
 .top-section::after {
   content: "";
   position: absolute;
@@ -42,12 +47,59 @@
 }
 
 /* LEFT SIDE */
-
 .left-side {
   display: flex;
   flex-direction: column;
   position: relative;
   z-index: 2;
+overflow: hidden;
+  background: linear-gradient(
+    180deg,
+    #ffffff 0%,
+    #ffffff 38%,
+    #f7f9fb 43%,
+    #d9e4ed 50%,
+    #88a5bd 58%,
+    #315f86 66%,
+    #214c74 72%,
+    #173c60 82%,
+    #0f2b4b 92%,
+    #091c31 100%
+  );
+}
+
+.left-side::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+top: 32%;
+  height: 45%;
+    pointer-events: none;
+    z-index: 1;
+
+     background:
+    radial-gradient(
+      ellipse at 50% 25%,
+      rgba(255, 255, 255, 0.52) 0%,
+      rgba(255, 255, 255, 0.3) 35%,
+      rgba(255, 255, 255, 0.1) 60%,
+      transparent 82%
+    ),
+    radial-gradient(
+      ellipse at 25% 58%,
+      rgba(255, 255, 255, 0.22) 0%,
+      rgba(255, 255, 255, 0.08) 50%,
+      transparent 76%
+    ),
+    radial-gradient(
+      ellipse at 78% 65%,
+      rgba(255, 255, 255, 0.18) 0%,
+      rgba(255, 255, 255, 0.06) 48%,
+      transparent 75%
+    );
+
+  filter: blur(28px);
+  opacity: 0.65
 }
 
 /* LOGO */
@@ -56,15 +108,19 @@
   justify-content: center;
   align-items: center;
   position: relative;
-  background: linear-gradient(180deg, #ffffff 0%, #fafafa 65%, #f2f4f7 100%);
+  /*background: linear-gradient(180deg, #ffffff 0%, #fafafa 65%, #f2f4f7 100%);*/
   z-index: 2;
-  overflow: visible;
-  flex: 0 0 23%;
+  background: transparent;
+  /* overflow: visible;*/
+  /*  flex: 0 0 23%;*/
+  flex: 0 0 45%;
   height: auto;
 }
 
 .logo-section img {
-  height: 400px;
+  width: clamp(260px, 50%, 430px);
+  height: auto;
+  display: block;
 }
 
 /* TEXT BELOW LOGO */
@@ -73,15 +129,11 @@
   flex-direction: column;
   justify-content: center;
   padding: 18px 24px;
-  background: linear-gradient(
-    180deg,
-    #214c74 0%,
-    #173c60 20%,
-    #0f2b4b 60%,
-    #091c31 100%
-  );
   color: var(--white);
-  flex: 0 0 27%;
+  flex: 1;
+
+  background: transparent;
+  position: relative;
 }
 
 .tagline {
@@ -255,10 +307,6 @@
     padding: 40px 0;
   }
 
-  .logo-section img {
-    width: 250px;
-  }
-
   .text-section {
     padding: 30px;
   }
@@ -285,10 +333,6 @@
 
   .logo-section {
     flex: 0 0 28%;
-  }
-
-  .logo-section img {
-    width: 380px;
   }
 
   .text-section {
@@ -346,11 +390,6 @@
   .logo-section {
     height: 18svh;
     padding: 0;
-  }
-
-  .logo-section img {
-    width: 170px;
-    max-width: 75%;
   }
 
   .text-section {
@@ -442,6 +481,21 @@
   .left-side {
     display: flex;
     flex-direction: column;
+    background: linear-gradient(
+      180deg,
+      #ffffff 0%,
+      #ffffff 43%,
+      #fafbfc 46%,
+      #edf2f6 49%,
+      #d7e2eb 52%,
+      #a9bece 56%,
+      #6f91ad 60%,
+      #3d698d 64%,
+      #214c74 69%,
+      #173c60 80%,
+      #0f2b4b 91%,
+      #091c31 100%
+    );
   }
 
   .logo-section {
@@ -455,10 +509,6 @@
 
   .image-section {
     height: 100%;
-  }
-
-  .logo-section img {
-    width: 560px;
   }
 
   .tagline {
