@@ -356,11 +356,11 @@ document.addEventListener("DOMContentLoaded", () => {
     );
   }
 
-  function getSelectedRooms(selector) {
-    return Array.from(document.querySelectorAll(selector))
+  function getSelectedRooms() {
+    return Array.from(document.querySelectorAll(".room-item"))
       .map((roomItem) => {
         const checkbox = roomItem.querySelector(
-          'input[type="checkbox"]',
+          'input[type="checkbox"][name="rooms',
         );
 
         if (!checkbox?.checked) {
@@ -408,9 +408,9 @@ document.addEventListener("DOMContentLoaded", () => {
 
       service: document.body.dataset.service || document.title,
 
-      cleaningOptions: getCheckedValues('.room-item:has(input[name="cleaningOptions"])'),
+      cleaningOptions: getCheckedValues('input[name="cleaningOptions"]'),
 
-      rooms: getSelectedRooms('.room-item:has(input[name="rooms"])'),
+      rooms: getSelectedRooms(),
     };
 
     bookingSubmitButton.disabled = true;

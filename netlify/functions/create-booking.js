@@ -235,14 +235,13 @@ exports.handler = async function handler(event) {
     const detailsText = [
       `Bokningsnummer: ${bookingReference}`,
       `Datum: ${formattedDate}`,
-      `Namn: ${booking.name}`,
-      `Företag: ${booking.companyName || "Ej angivet"}`,
+      `Namn/Företag: ${booking.name}`,
       `E-post: ${booking.email}`,
       `Telefon: ${booking.phone}`,
       `Yta: ${booking.area || "Ej angiven"}`,
       `Tjänst: ${booking.service || "Ej angiven"}`,
-      `Städval: ${booking.cleaningOptions.join(", ") || "Ej angivet"}`,
-      `Rum: ${booking.rooms.join(", ") || "Ej angivet"}`,
+      `Städtjänster: ${booking.cleaningOptions.join(", ") || "Ej angivet"}`,
+      `Rum att städa: ${booking.rooms.join(", ") || "Ej angivet"}`,
       `Antal sovrum: ${booking.bedrooms || "Ej angivet"}`,
       `Antal badrum: ${booking.bathrooms || "Ej angivet"}`,
     ].join("\n");
@@ -329,14 +328,13 @@ exports.handler = async function handler(event) {
           <tbody>
             ${emailRow("Bokningsnummer", bookingReference)}
             ${emailRow("Datum", formattedDate)}
-            ${emailRow("Namn", booking.name)}
-            ${emailRow("Företag", booking.companyName)}
+            ${emailRow("Namn/Företag", booking.name)}
             ${emailRow("E-post", booking.email)}
             ${emailRow("Telefon", booking.phone)}
             ${emailRow("Yta", booking.area)}
             ${emailRow("Tjänst", booking.service)}
-            ${emailRow("Städval", booking.cleaningOptions.join(", "))}
-            ${emailRow("Rum", booking.rooms.join(", "))}
+            ${emailRow("Städtjänster", booking.cleaningOptions.join(", "))}
+            ${emailRow("Rum att städa", booking.rooms.join(", "))}
             ${emailRow("Antal sovrum", booking.bedrooms)}
             ${emailRow("Antal badrum", booking.bathrooms)}
           </tbody>
