@@ -281,7 +281,7 @@ exports.handler = async function handler(event) {
       throw new Error("Email sender or admin email is missing.");
     }
 
-    /*const clientEmailHtml = `
+    const clientEmailHtml = `
       <div style="font-family:Arial,sans-serif;line-height:1.6;color:#173c60">
         <h1 style="color:#173c60">Tack för din bokningsförfrågan</h1>
 
@@ -318,7 +318,7 @@ exports.handler = async function handler(event) {
 
         <p>Vänliga hälsningar,<br>Elite Städ Och Service</p>
       </div>
-    `;*/
+    `;
 
     const adminEmailHtml = `
       <div style="font-family:Arial,sans-serif;line-height:1.6;color:#173c60">
@@ -370,8 +370,20 @@ exports.handler = async function handler(event) {
       replyTo: booking.email,
     });
 
+    const clientEmailResult = await resend.emails.send({
+      from: "Elite Städ Och Service <onboarding@resend.dev>",
+      to: "lina_abuhijleh@hotmail.com",
+      subject: `Ny bokning: ${booking.name} – ${formattedDate}`,
+      html: clientEmailHtml,
+      replyTo: booking.email,
+    });
+
     if (adminEmailResult.error) {
       console.error("Admin email failed:", adminEmailResult.error);
+    }
+
+    if (clientEmailResult.error) {
+      console.error("Client email failed:", clientEmailResult.error);
     }
 
     const adminEmailSent = !adminEmailResult.error;
